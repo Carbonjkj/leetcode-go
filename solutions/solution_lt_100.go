@@ -7,10 +7,10 @@ import (
 // 1
 func TwoSum(nums []int, target int) []int {
 	m := make(map[int]int)
-	for i := 0; i < len(nums); i++ {
-		sub := target - nums[i]
-		if m[nums[i]] != 0 {
-			return []int{m[nums[i]] - 1, i}
+	for i, v := range nums {
+		sub := target - v
+		if m[v] != 0 {
+			return []int{m[v] - 1, i}
 		} else {
 			m[sub] = i + 1
 		}
