@@ -1,9 +1,5 @@
 package solutions
 
-import (
-	"strings"
-)
-
 // 1
 func TwoSum(nums []int, target int) []int {
 	m := make(map[int]int)
@@ -34,37 +30,30 @@ func IsPalindrome(x int) bool {
 
 // 12
 func IntToRoman(num int) string {
-	v := []rune{'I', 'V', 'X', 'L', 'C', 'D', 'M', ' '}
+	v := []string{"I", "V", "X", "L", "C", "D", "M", " "}
 	rc := ""
 	cursor := 0
 	for num > 0 {
-		var sb strings.Builder
 		mod := num % 10
 		switch mod {
 		case 9:
-			sb.WriteRune(v[2*cursor])
-			sb.WriteRune(v[2*cursor+2])
-			sb.WriteString(rc)
-			mod = 0
+			rc = v[2*cursor] + v[2*cursor+2] + rc
 		case 4:
-			sb.WriteRune(v[2*cursor])
-			sb.WriteRune(v[2*cursor+1])
-			sb.WriteString(rc)
-			mod = 0
+			rc = v[2*cursor] + v[2*cursor+1] + rc
 		default:
+			append := ""
 			for mod > 0 {
 				if mod-5 >= 0 {
-					sb.WriteRune(v[2*cursor+1])
+					append = v[2*cursor+1]
 					mod -= 5
 				}
 				if mod-1 >= 0 {
-					sb.WriteRune(v[2*cursor])
+					append = append + v[2*cursor]
 					mod -= 1
 				}
 			}
-			sb.WriteString(rc)
+			rc = append + rc
 		}
-		rc = sb.String()
 		num /= 10
 		cursor++
 	}
