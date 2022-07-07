@@ -1,5 +1,9 @@
 package solutions
 
+import (
+	"leetcode/utils"
+)
+
 // 1
 func TwoSum(nums []int, target int) []int {
 	m := make(map[int]int)
@@ -78,6 +82,93 @@ func RomanToInt(s string) int {
 			rc -= last * 2
 		}
 		last = m[c]
+	}
+	return rc
+}
+
+// 14
+func LongestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return ""
+	}
+	longest := strs[0]
+	for _, value := range strs {
+		for i, c := range longest {
+			if i >= len(value) || c != rune(value[i]) {
+				longest = longest[:i]
+				break
+			}
+		}
+	}
+	return longest
+}
+
+// 20
+func IsValidParentheses(s string) bool {
+	str := ""
+	rc := ' '
+	for _, c := range s {
+		test := false
+		switch c {
+		case '(', '[', '{':
+			str = string(c) + str
+		case ')':
+			rc = '('
+			test = true
+		case ']':
+			rc = '['
+			test = true
+		case '}':
+			rc = '{'
+			test = true
+		}
+		if !test {
+			continue
+		}
+		if len(str) == 0 {
+			return false
+		}
+		if rc != rune(str[0]) {
+			return false
+		}
+		if len(str) == 1 {
+			str = ""
+		} else {
+			str = str[1:]
+		}
+	}
+	return (len(str) == 0)
+}
+
+// 21
+func MergeTwoLists(list1 *utils.ListNode, list2 *utils.ListNode) *utils.ListNode {
+	if list1 == nil {
+		return list2
+	}
+	if list2 == nil {
+		return list1
+	}
+	var origin, append, rc *utils.ListNode
+	if list1.Val <= list2.Val {
+		origin = list1
+		rc = list1
+		append = list2
+	} else {
+		origin = list2
+		rc = list2
+		append = list1
+	}
+	for origin.Next != nil && append != nil {
+		if append.Val >= origin.Val && append.Val < origin.Next.Val {
+			head := append
+			append = append.Next
+			head.Next = origin.Next
+			origin.Next = head
+		}
+		origin = origin.Next
+	}
+	if append != nil {
+		origin.Next = append
 	}
 	return rc
 }

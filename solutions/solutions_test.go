@@ -1,6 +1,7 @@
 package solutions
 
 import (
+	"leetcode/utils"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -55,5 +56,65 @@ func TestIntToRoman(t *testing.T) {
 	{
 		cut := 1994
 		assert.Equal("MCMXCIV", IntToRoman(cut))
+	}
+}
+
+func TestLongestCommonPrefix(t *testing.T) {
+	assert := assert.New(t)
+	{
+		cut := []string{"flower", "flow", "flight"}
+		assert.Equal("fl", LongestCommonPrefix(cut))
+	}
+	{
+		cut := []string{"applea", "applb", "applec", "app"}
+		assert.Equal("app", LongestCommonPrefix(cut))
+	}
+	{
+		cut := []string{"dog", "racecar", "car"}
+		assert.Equal("", LongestCommonPrefix(cut))
+	}
+}
+
+func TestIsValidParentheses(t *testing.T) {
+	assert := assert.New(t)
+	assert.True(IsValidParentheses("()(){}{[()]}"))
+	assert.False(IsValidParentheses("()[(])){}{[()]}"))
+	assert.False(IsValidParentheses("["))
+}
+
+func TestMergeTwoLists(t *testing.T) {
+	assert := assert.New(t)
+	{
+		list1 := utils.MakeLinkedList([]int{1, 3, 5, 34, 55})
+		list2 := utils.MakeLinkedList([]int{1, 2, 8, 13, 21})
+		cut := MergeTwoLists(list1, list2)
+		assert.Equal(1, cut.Val)
+		cut = cut.Next
+		assert.Equal(1, cut.Val)
+		cut = cut.Next
+		assert.Equal(2, cut.Val)
+		cut = cut.Next
+		assert.Equal(3, cut.Val)
+		cut = cut.Next
+		assert.Equal(5, cut.Val)
+		cut = cut.Next
+		assert.Equal(8, cut.Val)
+		cut = cut.Next
+		assert.Equal(13, cut.Val)
+		cut = cut.Next
+		assert.Equal(21, cut.Val)
+		cut = cut.Next
+		assert.Equal(34, cut.Val)
+		cut = cut.Next
+		assert.Equal(55, cut.Val)
+		cut = cut.Next
+		assert.Nil(cut)
+	}
+	{
+		list1 := utils.MakeLinkedList([]int{})
+		list2 := utils.MakeLinkedList([]int{1})
+		cut := MergeTwoLists(list1, list2)
+		assert.Equal(1, cut.Val)
+		assert.Nil(cut.Next)
 	}
 }
