@@ -1,7 +1,9 @@
 package solutions
 
 import (
+	"fmt"
 	"leetcode/utils"
+	"os"
 )
 
 // 1
@@ -171,4 +173,116 @@ func MergeTwoLists(list1 *utils.ListNode, list2 *utils.ListNode) *utils.ListNode
 		origin.Next = append
 	}
 	return rc
+}
+
+// 26
+func RemoveDuplicates(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	last := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i] != nums[last] {
+			nums[last+1] = nums[i]
+			last++
+		}
+	}
+	return last + 1
+}
+
+// 27
+func RemoveElement(nums []int, val int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	ptr := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i] != val {
+			nums[ptr] = nums[i]
+			ptr++
+		}
+	}
+	return ptr
+}
+
+// 28 31.27% 67.73%
+func StrStrNormal(haystack string, needle string) int {
+	if len(needle) == 0 {
+		return 0
+	}
+	if len(haystack) < len(needle) {
+		return -1
+	}
+
+	match := 0
+	for i := 0; i < len(haystack); i++ {
+		if haystack[i] == needle[0] {
+			match = i
+			for j := 0; j < len(needle); j++ {
+				if match+j >= len(haystack) {
+					return -1
+				}
+				if haystack[match+j] != needle[j] {
+					match++
+					break
+				}
+			}
+			if match == i {
+				return match
+			} else {
+				i = match - 1
+			}
+		}
+	}
+	return -1
+}
+
+// 28 100.00% 7.09%
+func StrStrKMP(haystack string, needle string) int {
+	fmt.Fprintf(os.Stdout, "=========\n")
+	if len(needle) == 0 {
+		return 0
+	}
+	if len(haystack) < len(needle) {
+		return -1
+	}
+
+	var lps = make([]int, len(needle))
+	pos := 0
+	lps[0] = 0
+	i := 1
+	for i < len(lps) {
+		if needle[i] == needle[pos] {
+			pos++
+			lps[i] = pos
+			i++
+		} else {
+			if pos == 0 {
+				lps[i] = 0
+				i++
+			} else {
+				pos = lps[pos-1]
+			}
+		}
+	}
+	x := 0
+	y := 0
+	for x < len(haystack) {
+		fmt.Fprintf(os.Stdout, "current %c \n", needle[y])
+		if needle[y] == haystack[x] {
+			x++
+			y++
+		}
+		if y == len(needle) {
+			return x - y
+		} else if x < len(haystack) && needle[y] != haystack[x] {
+			if y != 0 {
+				y = lps[y-1]
+				fmt.Fprintf(os.Stdout, "restart from %c \n", needle[y])
+			} else {
+				x++
+			}
+		}
+	}
+	return -1
 }

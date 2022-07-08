@@ -118,3 +118,55 @@ func TestMergeTwoLists(t *testing.T) {
 		assert.Nil(cut.Next)
 	}
 }
+
+func TestRemoveDuplicates(t *testing.T) {
+	assert := assert.New(t)
+	nums := []int{1, 2, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9}
+	expect := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	cut := RemoveDuplicates(nums)
+	assert.Equal(len(expect), cut)
+	for i := 0; i < cut; i++ {
+		assert.Equal(expect[i], nums[i])
+	}
+}
+
+func TestRemoveElement(t *testing.T) {
+	assert := assert.New(t)
+	nums := []int{1, 2, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9}
+	expect := []int{1, 2, 3, 3, 5, 5, 6, 6, 7, 7, 8, 8, 9}
+	cut := RemoveElement(nums, 4)
+	assert.Equal(len(expect), cut)
+	for i := 0; i < cut; i++ {
+		assert.Equal(expect[i], nums[i])
+	}
+}
+
+func TestStrStr(t *testing.T) {
+	assert := assert.New(t)
+	{
+		haystack := "hakunamatata"
+		needle := "una"
+
+		assert.Equal(3, StrStrNormal(haystack, needle))
+		assert.Equal(3, StrStrKMP(haystack, needle))
+	}
+	{
+		haystack := "aaa"
+		needle := "aaaa"
+
+		assert.Equal(-1, StrStrNormal(haystack, needle))
+		assert.Equal(-1, StrStrKMP(haystack, needle))
+	}
+	{
+		haystack := "mississippi"
+		needle := "issipi"
+		assert.Equal(-1, StrStrNormal(haystack, needle))
+		assert.Equal(-1, StrStrKMP(haystack, needle))
+	}
+	{
+		haystack := "mississippi"
+		needle := "pi"
+		assert.Equal(9, StrStrNormal(haystack, needle))
+		assert.Equal(9, StrStrKMP(haystack, needle))
+	}
+}
