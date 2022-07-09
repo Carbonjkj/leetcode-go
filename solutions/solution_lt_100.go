@@ -1,9 +1,7 @@
 package solutions
 
 import (
-	"fmt"
 	"leetcode/utils"
-	"os"
 )
 
 // 1
@@ -239,7 +237,6 @@ func StrStrNormal(haystack string, needle string) int {
 
 // 28 100.00% 7.09%
 func StrStrKMP(haystack string, needle string) int {
-	fmt.Fprintf(os.Stdout, "=========\n")
 	if len(needle) == 0 {
 		return 0
 	}
@@ -268,7 +265,6 @@ func StrStrKMP(haystack string, needle string) int {
 	x := 0
 	y := 0
 	for x < len(haystack) {
-		fmt.Fprintf(os.Stdout, "current %c \n", needle[y])
 		if needle[y] == haystack[x] {
 			x++
 			y++
@@ -278,11 +274,29 @@ func StrStrKMP(haystack string, needle string) int {
 		} else if x < len(haystack) && needle[y] != haystack[x] {
 			if y != 0 {
 				y = lps[y-1]
-				fmt.Fprintf(os.Stdout, "restart from %c \n", needle[y])
 			} else {
 				x++
 			}
 		}
 	}
 	return -1
+}
+
+// 35 88.90%, 7.94%
+func SearchInsert(nums []int, target int) int {
+	r := len(nums)
+	if r == 0 {
+		return -1
+	}
+	l := 0
+	var m int
+	for l < r {
+		m = l + (r-l)/2
+		if nums[m] >= target {
+			r = m
+		} else {
+			l = m + 1
+		}
+	}
+	return l
 }

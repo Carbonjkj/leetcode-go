@@ -25,6 +25,8 @@ func TestIsPalindrome(t *testing.T) {
 	assert.False(IsPalindrome(cut))
 	cut = 123242321
 	assert.True(IsPalindrome(cut))
+	cut = 2147483647
+	assert.False(IsPalindrome(cut))
 }
 
 func TestRomanToInt(t *testing.T) {
@@ -168,5 +170,15 @@ func TestStrStr(t *testing.T) {
 		needle := "pi"
 		assert.Equal(9, StrStrNormal(haystack, needle))
 		assert.Equal(9, StrStrKMP(haystack, needle))
+	}
+}
+
+func TestSearchInsert(t *testing.T) {
+	assert := assert.New(t)
+	{
+		array := []int{1, 2, 3, 4, 5, 6, 7}
+		assert.Equal(7, SearchInsert(array, 8))
+		assert.Equal(0, SearchInsert(array, 1))
+		assert.Equal(2, SearchInsert(array, 3))
 	}
 }
